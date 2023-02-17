@@ -12,12 +12,6 @@ export default class TaskList extends React.Component {
     this.state = {
       editContactId: null, // Uses click to identify the task's ID, match it and trigger Edit Component
 
-      // editFormData: {
-      //   // state to store the changes made on edit button
-      //   // This shouldn't be "", but should rather target the edited fields specifically, think it should be a case of passing data from child to parent components
-      //   title: "",
-      //   task: "",
-      // },
       tasksArray: [
         //Creating an array of tasksArray objects
         {
@@ -72,19 +66,13 @@ export default class TaskList extends React.Component {
 
   // Saves edits
   saveFormChange = (id) => {
-    // const index = this.state.tasksArray.findIndex((task) => task.id === id);
-    // const task = this.state.tasksArray.filter((task) => task.id === id)[0];
-    console.log(id);
-    // console.log("Saving task id " + id); // This works as clicking save passes the Id of the task
-
     // Clicking save returns the ID
     // ID is the edited object
     // Need to save ID into tasksArray
-    // Use splice to replace?
+    // Use editContactId to find the position in the array
+    // To splice and replace with the edited object
     const newArray = [...this.state.tasksArray];
     newArray.splice(this.state.editContactId, 1, id);
-
-    console.log(newArray);
 
     this.setState({
       tasksArray: newArray,
@@ -101,6 +89,31 @@ export default class TaskList extends React.Component {
     this.setState({ tasksArray: newArray });
   };
 
+  setData() {
+    this.setState({ savedData: JSON.stringify(this.state.tasksArray) });
+    localStorage.setItem(
+      "List of Tasks",
+      JSON.stringify(this.state.tasksArray)
+    );
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("List of Tasks") !== null) {
+      this.getData();
+    }
+  }
+
+  getData() {
+    if (localStorage.getItem("List of Tasks") !== null) {
+      let data = JSON.parse(localStorage.getItem("List of Tasks"));
+      this.setState({ tasksArray: data });
+    }
+  }
+
+  clearStorage() {
+    localStorage.removeItem("List of Tasks");
+  }
+
   render() {
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
@@ -108,6 +121,7 @@ export default class TaskList extends React.Component {
         <TaskCreator
           addTask={this.addTask}
           taskArrayLength={this.state.tasksArray.length}
+          key={this.state.tasksArray.length}
         />
         <h1>Task List</h1>
         <form>
@@ -154,6 +168,15 @@ export default class TaskList extends React.Component {
             )}
           </Table>
         </form>
+        <Button variant="success" onClick={() => this.setData()}>
+          Save Tasks
+        </Button>
+        <Button variant="info" onClick={() => this.getData()}>
+          Load Tasks
+        </Button>
+        <Button variant="danger" onClick={() => this.clearStorage()}>
+          Clear Tasks
+        </Button>
       </div>
     );
   }
