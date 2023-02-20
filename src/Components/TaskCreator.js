@@ -35,6 +35,7 @@ class TaskCreator extends React.Component {
   };
 
   render() {
+    const disableStatus = this.state.title === "" || this.state.task === "";
     return (
       <div>
         <Container>
@@ -70,6 +71,7 @@ class TaskCreator extends React.Component {
           </Row>
           <form onSubmit={this.handleSubmit}>
             <Button
+              disabled={disableStatus}
               size="sm"
               variant="success"
               as="input"

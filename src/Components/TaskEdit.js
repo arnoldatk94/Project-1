@@ -37,6 +37,7 @@ class TaskEdit extends React.Component {
   };
 
   render() {
+    const disableStatus = this.state.title === "" || this.state.task === "";
     return (
       <Fragment>
         <tbody>
@@ -75,7 +76,11 @@ class TaskEdit extends React.Component {
               </Button>
             </th>
             <th>
-              <Button variant="outline-success" onClick={this.handleSubmit}>
+              <Button
+                variant="outline-success"
+                onClick={this.handleSubmit}
+                disabled={disableStatus}
+              >
                 Save
               </Button>
               <Button
