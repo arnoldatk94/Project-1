@@ -144,6 +144,15 @@ export default class TaskList extends React.Component {
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
       <div>
+        <Button variant="success" onClick={() => this.setData()}>
+          Save Tasks
+        </Button>
+        <Button variant="info" onClick={() => this.getData()}>
+          Load Tasks
+        </Button>
+        <Button variant="danger" onClick={() => this.clearStorage()}>
+          Clear Tasks
+        </Button>
         <TaskCreator
           addTask={this.addTask}
           taskArrayLength={this.state.tasksArray.length}
@@ -208,15 +217,6 @@ export default class TaskList extends React.Component {
             )}
           </Table>
         </form>
-        <Button variant="success" onClick={() => this.setData()}>
-          Save Tasks
-        </Button>
-        <Button variant="info" onClick={() => this.getData()}>
-          Load Tasks
-        </Button>
-        <Button variant="danger" onClick={() => this.clearStorage()}>
-          Clear Tasks
-        </Button>
       </div>
     );
   }
