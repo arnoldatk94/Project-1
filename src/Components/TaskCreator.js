@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Table, Form } from "react-bootstrap";
+import { Button, Container, Row, Col, Form } from "react-bootstrap";
 
 class TaskCreator extends React.Component {
   constructor(props) {
@@ -37,31 +37,39 @@ class TaskCreator extends React.Component {
   render() {
     return (
       <div>
-        <form>
-          <Form.Group>
-            <Form.Label>New Task</Form.Label>
-            <Form.Control
-              name="title"
-              type="text"
-              value={this.state.title}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-        </form>
-        <form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Label>Actions to be taken</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name="task"
-              type="text"
-              value={this.state.task}
-              onChange={this.handleChange}
-            />
-            <Button as="input" type="submit" value="submit" />
-          </Form.Group>
-        </form>
+        <Container>
+          <Row>
+            <Col>
+              <form>
+                <Form.Group>
+                  <Form.Label>New Task</Form.Label>
+                  <Form.Control
+                    name="title"
+                    type="text"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+              </form>
+            </Col>
+            <Col>
+              <form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Actions to be taken</Form.Label>
+                  <Form.Control
+                    // as="textarea"
+                    // rows={3}
+                    name="task"
+                    type="text"
+                    value={this.state.task}
+                    onChange={this.handleChange}
+                  />
+                  <Button as="input" type="submit" value="submit" />
+                </Form.Group>
+              </form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
