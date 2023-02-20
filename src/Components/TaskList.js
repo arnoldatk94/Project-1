@@ -144,6 +144,7 @@ export default class TaskList extends React.Component {
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
       <div>
+        <h1>Task List</h1>
         <Button variant="success" onClick={() => this.setData()}>
           Save Tasks
         </Button>
@@ -158,7 +159,7 @@ export default class TaskList extends React.Component {
           taskArrayLength={this.state.tasksArray.length}
           key={this.state.tasksArray.length}
         />
-        <h1>Task List</h1>
+
         <form>
           <Form.Control
             onChange={this.handleChange}
