@@ -68,14 +68,16 @@ class TaskCreator extends React.Component {
               </form>
             </Col>
           </Row>
+          <form onSubmit={this.handleSubmit}>
+            <Button
+              size="sm"
+              variant="success"
+              as="input"
+              type="submit"
+              value="Submit new task"
+            />
+          </form>
         </Container>
-        <Button
-          size="sm"
-          variant="success"
-          as="input"
-          type="submit"
-          value="Submit new task"
-        />
       </div>
     );
   }
