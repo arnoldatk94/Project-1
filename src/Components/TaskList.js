@@ -12,6 +12,8 @@ export default class TaskList extends React.Component {
     this.state = {
       editContactId: null, // Uses click to identify the task's ID, match it and trigger Edit Component
 
+      search: "",
+
       tasksArray: [
         //Creating an array of tasksArray objects
         {
@@ -60,7 +62,7 @@ export default class TaskList extends React.Component {
   handleEditClick = (id) => {
     const index = this.state.tasksArray.findIndex((task) => task.id === id);
     const task = this.state.tasksArray.filter((task) => task.id === id)[0];
-    console.log("Editing task id " + id); // Confirmed to work as clicking on edit accurately identifies the task ID, which allows setState to work
+    // console.log("Editing task id " + id); // Confirmed to work as clicking on edit accurately identifies the task ID, which allows setState to work
     this.setState({ editContactId: id });
   };
 
@@ -76,6 +78,13 @@ export default class TaskList extends React.Component {
 
     this.setState({
       tasksArray: newArray,
+      editContactId: null, // this is to toggle editContactId back to null to exit edit mode, which seems to be working
+    });
+  };
+
+  // Cancel edits
+  cancelFormChange = (id) => {
+    this.setState({
       editContactId: null, // this is to toggle editContactId back to null to exit edit mode, which seems to be working
     });
   };
@@ -111,10 +120,27 @@ export default class TaskList extends React.Component {
   }
 
   clearStorage() {
-    localStorage.removeItem("List of Tasks");
+    if (window.confirm("Are you sure?") === true) {
+      localStorage.removeItem("List of Tasks");
+    }
   }
 
+  handleChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({
+      [name]: value,
+    });
+    // console.log(this.state); // State is altered here
+  };
+
   render() {
+    // console.log(this.state.search); // To check current search state
+    // console.log(
+    //   this.state.tasksArray.filter((task) =>
+    //     task.title.toLowerCase().includes(this.state.search)
+    //   )
+    // ); // To check filtered elements of state based on search
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
       <div>
@@ -124,6 +150,13 @@ export default class TaskList extends React.Component {
           key={this.state.tasksArray.length}
         />
         <h1>Task List</h1>
+        <form>
+          <Form.Control
+            onChange={this.handleChange}
+            placeholder="Search Tasks"
+            name="search"
+          />
+        </form>
         <form>
           <Table striped bordered variant="primary">
             <thead>
@@ -136,33 +169,40 @@ export default class TaskList extends React.Component {
               </tr>
             </thead>
             {this.state.tasksArray && this.state.tasksArray.length > 0 ? (
-              sorted.map((task) => (
-                <Fragment key={task.id}>
-                  {this.state.editContactId === task.id ? (
-                    //Ternary If Else to check if editContactID has been changed from null to match another task's ID, and if so, switches to TaskEdit.js
-                    <TaskEdit
-                      edit={this.handleEditClick} // Passes the edit function into child component
-                      save={this.saveFormChange} // Not working
-                      key={task.id}
-                      keyID={task.id}
-                      priorityID={task.priority}
-                      {...task}
-                      increase={this.increasePriority}
-                      decrease={this.decreasePriority}
-                      delete={this.deleteTask}
-                    />
-                  ) : (
-                    <TaskReadOnly
-                      key={task.id}
-                      {...task}
-                      increase={this.increasePriority}
-                      decrease={this.decreasePriority}
-                      delete={this.deleteTask}
-                      edit={this.handleEditClick} //Passes the edit function into child component
-                    />
-                  )}
-                </Fragment>
-              ))
+              sorted
+                .filter((task) =>
+                  task.title
+                    .toLowerCase()
+                    .includes(this.state.search.toLowerCase())
+                )
+                .map((task) => (
+                  <Fragment key={task.id}>
+                    {this.state.editContactId === task.id ? (
+                      //Ternary If Else to check if editContactID has been changed from null to match another task's ID, and if so, switches to TaskEdit.js
+                      <TaskEdit
+                        edit={this.handleEditClick} // Passes the edit function into child component
+                        save={this.saveFormChange}
+                        cancel={this.cancelFormChange}
+                        key={task.id}
+                        keyID={task.id}
+                        priorityID={task.priority}
+                        {...task}
+                        increase={this.increasePriority}
+                        decrease={this.decreasePriority}
+                        delete={this.deleteTask}
+                      />
+                    ) : (
+                      <TaskReadOnly
+                        key={task.id}
+                        {...task}
+                        increase={this.increasePriority}
+                        decrease={this.decreasePriority}
+                        delete={this.deleteTask}
+                        edit={this.handleEditClick} //Passes the edit function into child component
+                      />
+                    )}
+                  </Fragment>
+                ))
             ) : (
               <p>All Tasks completed!</p>
             )}

@@ -6,6 +6,7 @@ class TaskEdit extends React.Component {
     super(props);
 
     // console.log(this.props);
+
     this.state = {
       title: "",
       task: "",
@@ -44,7 +45,7 @@ class TaskEdit extends React.Component {
               <input
                 type="text"
                 required="required"
-                // placeholder="Rename Task"
+                placeholder={this.props.title}
                 name="title"
                 onChange={this.handleChange}
               ></input>
@@ -53,7 +54,7 @@ class TaskEdit extends React.Component {
               <input
                 type="text"
                 required="required"
-                // placeholder="Rename Task"
+                placeholder={this.props.task}
                 name="task"
                 onChange={this.handleChange}
               ></input>
@@ -76,6 +77,12 @@ class TaskEdit extends React.Component {
             <th>
               <Button variant="outline-success" onClick={this.handleSubmit}>
                 Save
+              </Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => this.props.cancel(this.props.editContactId)}
+              >
+                Cancel
               </Button>
             </th>
           </tr>

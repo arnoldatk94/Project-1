@@ -64,12 +64,18 @@ class TaskCreator extends React.Component {
                     value={this.state.task}
                     onChange={this.handleChange}
                   />
-                  <Button as="input" type="submit" value="submit" />
                 </Form.Group>
               </form>
             </Col>
           </Row>
         </Container>
+        <Button
+          size="sm"
+          variant="success"
+          as="input"
+          type="submit"
+          value="Submit new task"
+        />
       </div>
     );
   }
