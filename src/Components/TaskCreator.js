@@ -56,10 +56,8 @@ class TaskCreator extends React.Component {
             <Col>
               <form onSubmit={this.handleSubmit}>
                 <Form.Group>
-                  <Form.Label>Actions to be taken</Form.Label>
+                  <Form.Label>Actions</Form.Label>
                   <Form.Control
-                    // as="textarea"
-                    // rows={3}
                     name="task"
                     type="text"
                     value={this.state.task}

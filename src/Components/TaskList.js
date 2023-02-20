@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Task from "./TaskReadOnly";
 import TaskCreator from "./TaskCreator";
-import { Button, Table, Form } from "react-bootstrap";
+import { Button, Table, Form, Row, Container, Col } from "react-bootstrap";
 import TaskReadOnly from "./TaskReadOnly";
 import TaskEdit from "./TaskEdit";
 
@@ -16,6 +16,20 @@ export default class TaskList extends React.Component {
 
       tasksArray: [
         //Creating an array of tasksArray objects
+        {
+          id: 0,
+          priority: 1,
+          title: "Task 1",
+          task: "Carry out Task 1",
+        },
+        {
+          id: 1,
+          priority: 0,
+          title: "Task 2",
+          task: "Carry out Task 2",
+        },
+      ],
+      defaultTasks: [
         {
           id: 0,
           priority: 1,
@@ -120,8 +134,14 @@ export default class TaskList extends React.Component {
   }
 
   clearStorage() {
-    if (window.confirm("Are you sure?") === true) {
+    if (
+      window.confirm("Are you sure? This will reset the entire task list!") ===
+      true
+    ) {
       localStorage.removeItem("List of Tasks");
+      this.setState({
+        tasksArray: this.state.defaultTasks,
+      });
     }
   }
 
@@ -135,6 +155,8 @@ export default class TaskList extends React.Component {
   };
 
   render() {
+    const disableStatus = localStorage.getItem("List of Tasks") === null;
+    const disableSave = this.state.tasksArray.length === 0;
     // console.log(this.state.search); // To check current search state
     // console.log(
     //   this.state.tasksArray.filter((task) =>
@@ -145,13 +167,25 @@ export default class TaskList extends React.Component {
     return (
       <div>
         <h1>Task List</h1>
-        <Button variant="success" onClick={() => this.setData()}>
+        <Button
+          disabled={disableSave}
+          variant="success"
+          onClick={() => this.setData()}
+        >
           Save Tasks
         </Button>
-        <Button variant="info" onClick={() => this.getData()}>
+        <Button
+          variant="info"
+          onClick={() => this.getData()}
+          disabled={disableStatus}
+        >
           Load Tasks
         </Button>
-        <Button variant="danger" onClick={() => this.clearStorage()}>
+        <Button
+          variant="danger"
+          onClick={() => this.clearStorage()}
+          disabled={disableStatus}
+        >
           Clear Tasks
         </Button>
         <TaskCreator
@@ -168,13 +202,13 @@ export default class TaskList extends React.Component {
           />
         </form>
         <form>
-          <Table striped bordered variant="primary">
+          <Table striped bordered variant="primary" responsive>
             <thead>
               <tr>
                 <th>Task Name: </th>
                 <th>Actions: </th>
                 <th>Priority: </th>
-                <th>Change Priority</th>
+                <th>⬆️⬇️</th>
                 <th>Edit/Delete</th>
               </tr>
             </thead>
@@ -214,7 +248,13 @@ export default class TaskList extends React.Component {
                   </Fragment>
                 ))
             ) : (
-              <p>All Tasks completed!</p>
+              <Fragment>
+                <tbody variant="outline-success">
+                  <th colSpan={5}>
+                    <h1 className="taskComplete">All Tasks completed!</h1>
+                  </th>
+                </tbody>
+              </Fragment>
             )}
           </Table>
         </form>
