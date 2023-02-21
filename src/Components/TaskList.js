@@ -166,98 +166,102 @@ export default class TaskList extends React.Component {
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
       <div>
-        <h1>Task List</h1>
-        <Button
-          disabled={disableSave}
-          variant="success"
-          onClick={() => this.setData()}
-        >
-          Save Tasks
-        </Button>
-        <Button
-          variant="info"
-          onClick={() => this.getData()}
-          disabled={disableStatus}
-        >
-          Load Tasks
-        </Button>
-        <Button
-          variant="danger"
-          onClick={() => this.clearStorage()}
-          disabled={disableStatus}
-        >
-          Clear Tasks
-        </Button>
-        <TaskCreator
-          addTask={this.addTask}
-          taskArrayLength={this.state.tasksArray.length}
-          key={this.state.tasksArray.length}
-        />
-
-        <form>
-          <Form.Control
-            onChange={this.handleChange}
-            placeholder="Search Tasks"
-            name="search"
+        <Container>
+          <h1>Task List</h1>
+          <Button
+            disabled={disableSave}
+            variant="success"
+            onClick={() => this.setData()}
+          >
+            Save Tasks
+          </Button>
+          <Button
+            variant="info"
+            onClick={() => this.getData()}
+            disabled={disableStatus}
+          >
+            Load Tasks
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => this.clearStorage()}
+            disabled={disableStatus}
+          >
+            Clear Tasks
+          </Button>
+          <TaskCreator
+            addTask={this.addTask}
+            taskArrayLength={this.state.tasksArray.length}
+            key={this.state.tasksArray.length}
           />
-        </form>
-        <form>
-          <Table striped bordered variant="primary" responsive>
-            <thead>
-              <tr>
-                <th>Task Name: </th>
-                <th>Actions: </th>
-                <th>Priority: </th>
-                <th>⬆️⬇️</th>
-                <th>Edit/Delete</th>
-              </tr>
-            </thead>
-            {this.state.tasksArray && this.state.tasksArray.length > 0 ? (
-              sorted
-                .filter((task) =>
-                  task.title
-                    .toLowerCase()
-                    .includes(this.state.search.toLowerCase())
-                )
-                .map((task) => (
-                  <Fragment key={task.id}>
-                    {this.state.editContactId === task.id ? (
-                      //Ternary If Else to check if editContactID has been changed from null to match another task's ID, and if so, switches to TaskEdit.js
-                      <TaskEdit
-                        edit={this.handleEditClick} // Passes the edit function into child component
-                        save={this.saveFormChange}
-                        cancel={this.cancelFormChange}
-                        key={task.id}
-                        keyID={task.id}
-                        priorityID={task.priority}
-                        {...task}
-                        increase={this.increasePriority}
-                        decrease={this.decreasePriority}
-                        delete={this.deleteTask}
-                      />
-                    ) : (
-                      <TaskReadOnly
-                        key={task.id}
-                        {...task}
-                        increase={this.increasePriority}
-                        decrease={this.decreasePriority}
-                        delete={this.deleteTask}
-                        edit={this.handleEditClick} //Passes the edit function into child component
-                      />
-                    )}
-                  </Fragment>
-                ))
-            ) : (
-              <Fragment>
-                <tbody variant="outline-success">
-                  <th colSpan={5}>
-                    <h1 className="taskComplete">All Tasks completed!</h1>
-                  </th>
-                </tbody>
-              </Fragment>
-            )}
-          </Table>
-        </form>
+
+          <form>
+            <Form.Control
+              onChange={this.handleChange}
+              placeholder="Search Tasks"
+              name="search"
+            />
+          </form>
+          <form>
+            <Table responsive striped bordered variant="primary">
+              <thead>
+                <tr>
+                  <th>Task Name: </th>
+                  <th>Actions: </th>
+                  <th>Priority: </th>
+                  <th>⬆️⬇️</th>
+                  <th>Edit/Delete</th>
+                </tr>
+              </thead>
+              {this.state.tasksArray && this.state.tasksArray.length > 0 ? (
+                sorted
+                  .filter((task) =>
+                    task.title
+                      .toLowerCase()
+                      .includes(this.state.search.toLowerCase())
+                  )
+                  .map((task) => (
+                    <Fragment key={task.id}>
+                      {this.state.editContactId === task.id ? (
+                        //Ternary If Else to check if editContactID has been changed from null to match another task's ID, and if so, switches to TaskEdit.js
+                        <TaskEdit
+                          edit={this.handleEditClick} // Passes the edit function into child component
+                          save={this.saveFormChange}
+                          cancel={this.cancelFormChange}
+                          key={task.id}
+                          keyID={task.id}
+                          priorityID={task.priority}
+                          {...task}
+                          increase={this.increasePriority}
+                          decrease={this.decreasePriority}
+                          delete={this.deleteTask}
+                        />
+                      ) : (
+                        <TaskReadOnly
+                          key={task.id}
+                          {...task}
+                          increase={this.increasePriority}
+                          decrease={this.decreasePriority}
+                          delete={this.deleteTask}
+                          edit={this.handleEditClick} //Passes the edit function into child component
+                        />
+                      )}
+                    </Fragment>
+                  ))
+              ) : (
+                <Fragment>
+                  <tbody variant="outline-success">
+                    <tr>
+                      <th colSpan={5}>
+                        <h1 className="taskComplete">All Tasks completed!</h1>
+                      </th>
+                    </tr>
+                  </tbody>
+                </Fragment>
+              )}
+            </Table>
+          </form>
+        </Container>
       </div>
     );
   }
