@@ -7,27 +7,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* code {
+code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-} */
-
-code {
-  font-family: Arial, Helvetica, sans-serif monospace;
 }
 
 .table {
   font-family: Arial, Helvetica, sans-serif;
   font-size: large;
-  white-space: nowrap;
+
+  vertical-align: top;
 }
 
-thead {
-  white-space: nowrap;
+tr.headerTable {
+  vertical-align: top;
 }
 
 tbody {
   font-style: normal;
   font-size: large;
-  white-space: nowrap;
 }

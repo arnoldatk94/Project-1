@@ -12,16 +12,19 @@ class TaskReadOnly extends React.Component {
             <th>{this.props.priority}</th>
             <th>
               <Button
+                size="sm"
                 variant="success"
                 onClick={() => this.props.increase(this.props.id)}
               >
-                +
+                ➕
               </Button>
+
               <Button
+                size="sm"
                 variant="danger"
                 onClick={() => this.props.decrease(this.props.id)}
               >
-                -
+                ➖
               </Button>
             </th>
             <th>

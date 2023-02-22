@@ -205,8 +205,8 @@ export default class TaskList extends React.Component {
           <form>
             <Table responsive striped bordered variant="primary">
               <thead>
-                <tr>
-                  <th>Task Name: </th>
+                <tr className="headerTable">
+                  <th>Task: </th>
                   <th>Actions: </th>
                   <th>Priority: </th>
                   <th>⬆️⬇️</th>

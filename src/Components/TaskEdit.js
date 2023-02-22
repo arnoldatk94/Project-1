@@ -43,22 +43,33 @@ class TaskEdit extends React.Component {
         <tbody>
           <tr>
             <th>
-              <input
-                type="text"
+              <textarea
+                // as="textarea"
+                rows={3}
+                type="textarea"
                 required="required"
                 placeholder={this.props.title}
                 name="title"
                 onChange={this.handleChange}
-              ></input>
+              ></textarea>
             </th>
             <th>
-              <input
-                type="text"
+              {/* <input
+                // as="textarea"
+                rows={3}
+                type="textarea"
                 required="required"
                 placeholder={this.props.task}
                 name="task"
                 onChange={this.handleChange}
-              ></input>
+              ></input> */}
+              <textarea
+                rows={3}
+                required="required"
+                placeholder={this.props.task}
+                name="task"
+                onChange={this.handleChange}
+              ></textarea>
             </th>
             <th>{this.props.priority}</th>
             <th>
