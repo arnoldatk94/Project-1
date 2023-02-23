@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 class TaskReadOnly extends React.Component {
   render() {

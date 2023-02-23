@@ -1,11 +1,9 @@
 import React, { Fragment } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 class TaskEdit extends React.Component {
   constructor(props) {
     super(props);
-
-    // console.log(this.props);
 
     this.state = {
       title: "",
@@ -21,7 +19,6 @@ class TaskEdit extends React.Component {
     this.setState({
       [name]: value,
     });
-    // console.log(this.state); // State is altered here
   };
 
   handleSubmit = (e) => {
@@ -44,7 +41,6 @@ class TaskEdit extends React.Component {
           <tr>
             <th>
               <textarea
-                // as="textarea"
                 rows={3}
                 type="textarea"
                 required="required"
@@ -54,15 +50,6 @@ class TaskEdit extends React.Component {
               ></textarea>
             </th>
             <th>
-              {/* <input
-                // as="textarea"
-                rows={3}
-                type="textarea"
-                required="required"
-                placeholder={this.props.task}
-                name="task"
-                onChange={this.handleChange}
-              ></input> */}
               <textarea
                 rows={3}
                 required="required"

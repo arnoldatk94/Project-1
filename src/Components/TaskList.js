@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import Task from "./TaskReadOnly";
 import TaskCreator from "./TaskCreator";
 import { Button, Table, Form, Row, Container, Col } from "react-bootstrap";
 import TaskReadOnly from "./TaskReadOnly";
@@ -10,12 +9,11 @@ export default class TaskList extends React.Component {
     super(props);
 
     this.state = {
-      editContactId: null, // Uses click to identify the task's ID, match it and trigger Edit Component
+      editContactId: null,
 
       search: "",
 
       tasksArray: [
-        //Creating an array of tasksArray objects
         {
           id: 0,
           priority: 1,
@@ -55,10 +53,10 @@ export default class TaskList extends React.Component {
   };
 
   increasePriority = (id) => {
-    const index = this.state.tasksArray.findIndex((task) => task.id === id); // Find the Task based on ID
-    const task = this.state.tasksArray.filter((task) => task.id === id)[0]; // Filter out the specific task based on given ID
+    const index = this.state.tasksArray.findIndex((task) => task.id === id);
+    const task = this.state.tasksArray.filter((task) => task.id === id)[0];
     task.priority += 1;
-    const newArray = [...this.state.tasksArray]; // Create new temp array to replace taskArray data via splice
+    const newArray = [...this.state.tasksArray];
     newArray.splice(index, 1, task);
     this.setState({ tasksArray: newArray });
   };
@@ -72,34 +70,25 @@ export default class TaskList extends React.Component {
     this.setState({ tasksArray: newArray });
   };
 
-  // Activates the edit function
   handleEditClick = (id) => {
     const index = this.state.tasksArray.findIndex((task) => task.id === id);
     const task = this.state.tasksArray.filter((task) => task.id === id)[0];
-    // console.log("Editing task id " + id); // Confirmed to work as clicking on edit accurately identifies the task ID, which allows setState to work
     this.setState({ editContactId: id });
   };
 
-  // Saves edits
   saveFormChange = (id) => {
-    // Clicking save returns the ID
-    // ID is the edited object
-    // Need to save ID into tasksArray
-    // Use editContactId to find the position in the array
-    // To splice and replace with the edited object
     const newArray = [...this.state.tasksArray];
     newArray.splice(this.state.editContactId, 1, id);
 
     this.setState({
       tasksArray: newArray,
-      editContactId: null, // this is to toggle editContactId back to null to exit edit mode, which seems to be working
+      editContactId: null,
     });
   };
 
-  // Cancel edits
   cancelFormChange = (id) => {
     this.setState({
-      editContactId: null, // this is to toggle editContactId back to null to exit edit mode, which seems to be working
+      editContactId: null,
     });
   };
 
@@ -151,18 +140,11 @@ export default class TaskList extends React.Component {
     this.setState({
       [name]: value,
     });
-    // console.log(this.state); // State is altered here
   };
 
   render() {
     const disableStatus = localStorage.getItem("List of Tasks") === null;
     const disableSave = this.state.tasksArray.length === 0;
-    // console.log(this.state.search); // To check current search state
-    // console.log(
-    //   this.state.tasksArray.filter((task) =>
-    //     task.title.toLowerCase().includes(this.state.search)
-    //   )
-    // ); // To check filtered elements of state based on search
     let sorted = this.state.tasksArray.sort((a, b) => b.priority - a.priority);
     return (
       <div>
@@ -225,7 +207,7 @@ export default class TaskList extends React.Component {
                       {this.state.editContactId === task.id ? (
                         //Ternary If Else to check if editContactID has been changed from null to match another task's ID, and if so, switches to TaskEdit.js
                         <TaskEdit
-                          edit={this.handleEditClick} // Passes the edit function into child component
+                          edit={this.handleEditClick}
                           save={this.saveFormChange}
                           cancel={this.cancelFormChange}
                           key={task.id}
@@ -243,7 +225,7 @@ export default class TaskList extends React.Component {
                           increase={this.increasePriority}
                           decrease={this.decreasePriority}
                           delete={this.deleteTask}
-                          edit={this.handleEditClick} //Passes the edit function into child component
+                          edit={this.handleEditClick}
                         />
                       )}
                     </Fragment>
